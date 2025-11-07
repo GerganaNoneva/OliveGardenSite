@@ -1,0 +1,5 @@
+# Redirect admin routes to admin index
+/admin/*  /admin/index.html  200
+
+# Redirect all other routes to main index
+/*  /index.html  200

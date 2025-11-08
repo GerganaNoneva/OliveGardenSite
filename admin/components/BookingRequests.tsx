@@ -128,6 +128,7 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
 
     if (error) {
       console.error('Error updating booking:', error);
+      alert('Грешка при обновяване на статуса: ' + error.message);
     }
 
     setChangingStatus(null);
@@ -252,9 +253,12 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
                     {(['pending', 'in_correspondence', 'proposed_dates', 'confirmed', 'rejected'] as AdminBooking['status'][]).map(status => (
                       <button
                         key={status}
-                        onClick={() => handleStatusChange(booking.id, status)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStatusChange(booking.id, status);
+                        }}
                         disabled={status === booking.status || changingStatus === booking.id}
-                        className={`w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors flex items-center gap-3 ${status === booking.status ? 'bg-gray-100 cursor-not-allowed opacity-50' : ''}`}
+                        className={`w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors flex items-center gap-3 ${status === booking.status ? 'bg-gray-100 cursor-not-allowed opacity-50' : ''} ${changingStatus === booking.id ? 'opacity-50 cursor-wait' : ''}`}
                       >
                         <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColors[status]}`}>
                           {statusLabels[status]}

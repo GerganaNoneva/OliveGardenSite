@@ -81,17 +81,13 @@ export default function AdminCalendar({ studio }: AdminCalendarProps) {
         {
           event: '*',
           schema: 'public',
-          table: 'bookings'
+          table: 'bookings',
+          filter: `studio_id=eq.${studio.id}`
         },
         (payload) => {
           console.log('Calendar booking change for studio:', studio.id, payload);
-          // Обновяваме само ако промяната засяга текущото студио
-          if (payload.eventType === 'DELETE' ||
-              (payload.new && (payload.new as any).studio_id === studio.id) ||
-              (payload.old && (payload.old as any).studio_id === studio.id)) {
-            console.log('Refetching bookings after change...');
-            fetchBookings();
-          }
+          console.log('Refetching bookings after change...');
+          fetchBookings();
         }
       )
       .subscribe((status) => {

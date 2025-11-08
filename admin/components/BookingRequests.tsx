@@ -29,7 +29,30 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
         table: 'bookings'
       }, (payload) => {
         console.log('Booking change:', payload);
-        fetchBookings();
+
+        if (payload.eventType === 'UPDATE' && payload.new) {
+          setBookings(prevBookings => {
+            const updatedBooking = payload.new as AdminBooking;
+            const exists = prevBookings.some(b => b.id === updatedBooking.id);
+
+            if (exists) {
+              return prevBookings.map(b =>
+                b.id === updatedBooking.id ? updatedBooking : b
+              );
+            }
+            return prevBookings;
+          });
+        } else if (payload.eventType === 'INSERT' && payload.new) {
+          setBookings(prevBookings => {
+            const newBooking = payload.new as AdminBooking;
+            const exists = prevBookings.some(b => b.id === newBooking.id);
+            return exists ? prevBookings : [newBooking, ...prevBookings];
+          });
+        } else if (payload.eventType === 'DELETE' && payload.old) {
+          setBookings(prevBookings =>
+            prevBookings.filter(b => b.id !== (payload.old as any).id)
+          );
+        }
       })
       .subscribe((status) => {
         console.log('Subscription status:', status);
@@ -95,14 +118,8 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
       .update(updateData)
       .eq('id', bookingId);
 
-    if (!error) {
-      // Моментално обновяване на локалното състояние
-      setBookings(prevBookings => prevBookings.map(b => {
-        if (b.id === bookingId) {
-          return { ...b, ...updateData };
-        }
-        return b;
-      }));
+    if (error) {
+      console.error('Error updating booking:', error);
     }
 
     setChangingStatus(null);

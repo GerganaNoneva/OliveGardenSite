@@ -104,6 +104,8 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
       check_out: selectedCheckOut.toISOString().split('T')[0],
       adults,
       children,
+      guest_count: adults,
+      children_count: children,
       total_price: totalPrice!,
       guest_name: contactPreferences.name,
       guest_country: contactPreferences.country,
@@ -119,8 +121,9 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
       .insert([booking]);
 
     if (error) {
-      alert('Грешка при изпращане на резервацията. Моля опитайте отново.');
       console.error('Booking error:', error);
+      console.error('Booking data:', booking);
+      alert(`Грешка при изпращане на резервацията: ${error.message}\n\nМоля опитайте отново.`);
       return;
     }
 

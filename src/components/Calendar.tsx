@@ -47,7 +47,23 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
     if (selectedCheckIn) {
       return new Date(selectedCheckIn.getFullYear(), selectedCheckIn.getMonth(), 1);
     }
-    return new Date();
+
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth(); // 0-11
+    const currentDay = today.getDate();
+
+    // Ако сме между 30 септември и 1 май, показваме май следващата година
+    if (currentMonth > 8 || (currentMonth === 8 && currentDay >= 30)) {
+      // След 30 септември - показваме май следващата година
+      return new Date(currentYear + 1, 4, 1); // May is month 4 (0-indexed)
+    } else if (currentMonth < 4) {
+      // Преди май - показваме май същата година
+      return new Date(currentYear, 4, 1);
+    } else {
+      // Между май и септември - показваме текущия месец
+      return new Date(currentYear, currentMonth, 1);
+    }
   };
 
   const shouldShowTwoMonths = () => {
@@ -75,6 +91,16 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
 
   const isDateBooked = (dateStr: string) => {
     return bookedDates.includes(dateStr);
+  };
+
+  const isDateInSeason = (date: Date) => {
+    const month = date.getMonth(); // 0-11
+    const day = date.getDate();
+    // Сезонът е 1 май (месец 4) до 30 септември (месец 8)
+    if (month < 4 || month > 8) return false; // Извън май-септември
+    if (month === 4 && day < 1) return false; // Преди 1 май
+    if (month === 8 && day > 30) return false; // След 30 септември
+    return true;
   };
 
   const isDateInRange = (date: Date) => {
@@ -105,7 +131,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year: date.getFullYear(),
         isCurrentMonth: false,
         isBooked: isDateBooked(dateStr),
-        isPast: date < today,
+        isPast: date < today || !isDateInSeason(date),
         isSelected: false,
         isInRange: false
       });
@@ -126,7 +152,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year,
         isCurrentMonth: true,
         isBooked: isDateBooked(dateStr),
-        isPast: date < today,
+        isPast: date < today || !isDateInSeason(date),
         isSelected,
         isInRange: isDateInRange(date)
       });
@@ -144,7 +170,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year: date.getFullYear(),
         isCurrentMonth: false,
         isBooked: isDateBooked(dateStr),
-        isPast: date < today,
+        isPast: date < today || !isDateInSeason(date),
         isSelected: false,
         isInRange: false
       });

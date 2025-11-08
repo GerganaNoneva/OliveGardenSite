@@ -106,6 +106,43 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
     setChangingStatus(bookingId);
     setShowStatusDropdown(null);
 
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking) {
+      setChangingStatus(null);
+      return;
+    }
+
+    // Проверка за припокриване при потвърждаване
+    if (newStatus === 'confirmed') {
+      const { data: conflictingBookings } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('studio_id', booking.studio_id)
+        .eq('status', 'confirmed')
+        .neq('id', bookingId);
+
+      if (conflictingBookings && conflictingBookings.length > 0) {
+        const hasOverlap = conflictingBookings.some(cb => {
+          const cbCheckIn = new Date(cb.check_in);
+          const cbCheckOut = new Date(cb.check_out);
+          const bookingCheckIn = new Date(booking.check_in);
+          const bookingCheckOut = new Date(booking.check_out);
+
+          return (
+            (bookingCheckIn >= cbCheckIn && bookingCheckIn <= cbCheckOut) ||
+            (bookingCheckOut >= cbCheckIn && bookingCheckOut <= cbCheckOut) ||
+            (bookingCheckIn <= cbCheckIn && bookingCheckOut >= cbCheckOut)
+          );
+        });
+
+        if (hasOverlap) {
+          alert('Не можете да потвърдите тази резервация! Има припокриване с друга потвърдена резервация за същото студио.');
+          setChangingStatus(null);
+          return;
+        }
+      }
+    }
+
     const { error } = await supabase
       .from('bookings')
       .update({ status: newStatus })

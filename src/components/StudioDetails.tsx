@@ -34,6 +34,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [contactPreferences, setContactPreferences] = useState<ContactPreferences | null>(null);
+  const [viewerCount] = useState(() => Math.floor(Math.random() * 3) + 2); // Random 2-4
 
   useEffect(() => {
     fetchBookedDates();
@@ -278,15 +279,22 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between mb-4">
-                <div></div>
+              <div className="flex items-center justify-center gap-4 mb-4">
                 {!showAvailability && (
-                  <button
-                    onClick={() => setShowAvailability(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-                  >
-                    {t(language, 'studio.viewAvailability')}
-                  </button>
+                  <>
+                    <div className="flex items-center gap-2 animate-pulse">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <span className="text-red-600 font-semibold text-sm">
+                        {t(language, 'studio.viewers', { count: viewerCount, name: getStudioName(studio, language) })}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setShowAvailability(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                    >
+                      {t(language, 'studio.viewAvailability')}
+                    </button>
+                  </>
                 )}
               </div>
 

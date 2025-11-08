@@ -45,6 +45,9 @@ export const translations = {
       selected: 'Избрано',
       period: 'Период',
       booked: 'Заето',
+      confirmed: 'Потвърдена',
+      pending: 'Чакаща',
+      rejected: 'Отхвърлена',
     },
     contact: {
       title: 'Потвърждение на резервация',
@@ -140,6 +143,9 @@ export const translations = {
       selected: 'Selected',
       period: 'Period',
       booked: 'Booked',
+      confirmed: 'Confirmed',
+      pending: 'Pending',
+      rejected: 'Rejected',
     },
     contact: {
       title: 'Booking Confirmation',
@@ -235,6 +241,9 @@ export const translations = {
       selected: 'Выбрано',
       period: 'Период',
       booked: 'Занято',
+      confirmed: 'Подтверждено',
+      pending: 'В ожидании',
+      rejected: 'Отклонено',
     },
     contact: {
       title: 'Подтверждение бронирования',
@@ -330,6 +339,9 @@ export const translations = {
       selected: 'Изабрано',
       period: 'Период',
       booked: 'Заузето',
+      confirmed: 'Потврђено',
+      pending: 'На чекању',
+      rejected: 'Одбијено',
     },
     contact: {
       title: 'Потврда резервације',
@@ -425,6 +437,9 @@ export const translations = {
       selected: 'Επιλεγμένο',
       period: 'Περίοδος',
       booked: 'Κλεισμένο',
+      confirmed: 'Επιβεβαιωμένο',
+      pending: 'Σε εκκρεμότητα',
+      rejected: 'Απορρίφθηκε',
     },
     contact: {
       title: 'Επιβεβαίωση κράτησης',
@@ -520,6 +535,9 @@ export const translations = {
       selected: 'Selectat',
       period: 'Perioadă',
       booked: 'Rezervat',
+      confirmed: 'Confirmat',
+      pending: 'În așteptare',
+      rejected: 'Respins',
     },
     contact: {
       title: 'Confirmare rezervare',
@@ -616,6 +634,9 @@ export const translations = {
       selected: 'Избрано',
       period: 'Период',
       booked: 'Зафатено',
+      confirmed: 'Потврдено',
+      pending: 'Чека',
+      rejected: 'Одбиено',
     },
     contact: {
       title: 'Потврда на резервација',

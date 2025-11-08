@@ -21,6 +21,11 @@ interface StudioDetailsProps {
   preselectedChildren?: number | null;
 }
 
+export interface BookingDateInfo {
+  date: string;
+  status: 'pending' | 'confirmed' | 'rejected';
+}
+
 export default function StudioDetails({ studio, onClose, preselectedCheckIn, preselectedCheckOut, preselectedAdults, preselectedChildren }: StudioDetailsProps) {
   const { language } = useLanguage();
   const [showAvailability, setShowAvailability] = useState(false);
@@ -28,7 +33,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(preselectedCheckOut || null);
   const [adults, setAdults] = useState(preselectedAdults || 2);
   const [children, setChildren] = useState(preselectedChildren || 0);
-  const [bookedDates, setBookedDates] = useState<string[]>([]);
+  const [bookedDates, setBookedDates] = useState<BookingDateInfo[]>([]);
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -46,20 +51,33 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
   const fetchBookedDates = async () => {
     const { data, error } = await supabase
       .from('bookings')
-      .select('check_in, check_out')
+      .select('check_in, check_out, status')
       .eq('studio_id', studio.id)
-      .eq('status', 'confirmed');
+      .in('status', ['pending', 'confirmed', 'rejected']);
 
     if (!error && data) {
-      const dates: string[] = [];
+      const dateInfoMap = new Map<string, BookingDateInfo>();
+
       data.forEach(booking => {
         const start = new Date(booking.check_in);
         const end = new Date(booking.check_out);
         for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-          dates.push(d.toISOString().split('T')[0]);
+          const dateStr = d.toISOString().split('T')[0];
+          const existing = dateInfoMap.get(dateStr);
+
+          // Приоритет: confirmed > pending > rejected
+          if (!existing ||
+              (booking.status === 'confirmed') ||
+              (booking.status === 'pending' && existing.status === 'rejected')) {
+            dateInfoMap.set(dateStr, {
+              date: dateStr,
+              status: booking.status as 'pending' | 'confirmed' | 'rejected'
+            });
+          }
         }
       });
-      setBookedDates(dates);
+
+      setBookedDates(Array.from(dateInfoMap.values()));
     }
   };
 

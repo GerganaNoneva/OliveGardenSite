@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { t } from '../translations';
 
+interface BookingDateInfo {
+  date: string;
+  status: 'pending' | 'confirmed' | 'rejected';
+}
+
 interface CalendarDay {
   date: Date;
   dateStr: string;
@@ -10,13 +15,14 @@ interface CalendarDay {
   year: number;
   isCurrentMonth: boolean;
   isBooked: boolean;
+  bookingStatus?: 'pending' | 'confirmed' | 'rejected';
   isPast: boolean;
   isSelected: boolean;
   isInRange: boolean;
 }
 
 interface CalendarProps {
-  bookedDates: string[];
+  bookedDates: BookingDateInfo[];
   selectedCheckIn: Date | null;
   selectedCheckOut: Date | null;
   onDateSelect: (checkIn: Date, checkOut: Date | null) => void;
@@ -89,8 +95,12 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
   const monthNames = monthNamesByLanguage[language];
   const dayNames = dayNamesByLanguage[language];
 
+  const getBookingInfo = (dateStr: string): BookingDateInfo | null => {
+    return bookedDates.find(bd => bd.date === dateStr) || null;
+  };
+
   const isDateBooked = (dateStr: string) => {
-    return bookedDates.includes(dateStr);
+    return bookedDates.some(bd => bd.date === dateStr);
   };
 
   const isDateInSeason = (date: Date) => {
@@ -123,6 +133,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
     for (let i = firstDayOfWeek - 1; i >= 0; i--) {
       const date = new Date(year, month - 1, prevLastDay.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
+      const bookingInfo = getBookingInfo(dateStr);
       days.push({
         date,
         dateStr,
@@ -131,6 +142,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year: date.getFullYear(),
         isCurrentMonth: false,
         isBooked: isDateBooked(dateStr),
+        bookingStatus: bookingInfo?.status,
         isPast: date < today || !isDateInSeason(date),
         isSelected: false,
         isInRange: false
@@ -140,6 +152,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
     for (let day = 1; day <= lastDay.getDate(); day++) {
       const date = new Date(year, month, day);
       const dateStr = date.toISOString().split('T')[0];
+      const bookingInfo = getBookingInfo(dateStr);
       const isSelected =
         (selectedCheckIn && dateStr === selectedCheckIn.toISOString().split('T')[0]) ||
         (selectedCheckOut && dateStr === selectedCheckOut.toISOString().split('T')[0]);
@@ -152,6 +165,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year,
         isCurrentMonth: true,
         isBooked: isDateBooked(dateStr),
+        bookingStatus: bookingInfo?.status,
         isPast: date < today || !isDateInSeason(date),
         isSelected,
         isInRange: isDateInRange(date)
@@ -162,6 +176,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
     for (let day = 1; day <= remainingDays; day++) {
       const date = new Date(year, month + 1, day);
       const dateStr = date.toISOString().split('T')[0];
+      const bookingInfo = getBookingInfo(dateStr);
       days.push({
         date,
         dateStr,
@@ -170,6 +185,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         year: date.getFullYear(),
         isCurrentMonth: false,
         isBooked: isDateBooked(dateStr),
+        bookingStatus: bookingInfo?.status,
         isPast: date < today || !isDateInSeason(date),
         isSelected: false,
         isInRange: false
@@ -259,6 +275,15 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
             cursor = 'cursor-not-allowed';
           }
 
+          // Цветни рамки според статуса на резервацията
+          if (day.bookingStatus === 'confirmed') {
+            border = 'border-4 border-red-500'; // Потвърдена - червена рамка
+          } else if (day.bookingStatus === 'pending') {
+            border = 'border-4 border-yellow-500'; // Чакаща - жълта рамка
+          } else if (day.bookingStatus === 'rejected') {
+            border = 'border-4 border-gray-400'; // Отхвърлена - сива рамка
+          }
+
           if (day.isSelected) {
             bgColor = 'bg-blue-600';
             textColor = 'text-white';
@@ -325,7 +350,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         renderMonth(days, currentMonth)
       )}
 
-      <div className="flex gap-4 mt-6 text-sm">
+      <div className="flex flex-wrap gap-4 mt-6 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-blue-600 rounded"></div>
           <span>{t(language, 'calendar.selected')}</span>
@@ -337,6 +362,18 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-100 rounded"></div>
           <span>{t(language, 'calendar.booked')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-4 border-red-500 rounded bg-white"></div>
+          <span>{t(language, 'calendar.confirmed')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-4 border-yellow-500 rounded bg-white"></div>
+          <span>{t(language, 'calendar.pending')}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-4 border-gray-400 rounded bg-white"></div>
+          <span>{t(language, 'calendar.rejected')}</span>
         </div>
       </div>
     </div>

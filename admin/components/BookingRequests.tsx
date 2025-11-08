@@ -64,14 +64,22 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = () => {
-      if (showStatusDropdown) {
+    if (!showStatusDropdown) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.status-dropdown-container')) {
         setShowStatusDropdown(null);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+    }, 0);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, [showStatusDropdown]);
 
   const fetchBookings = async () => {
@@ -225,15 +233,14 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
               <h3 className="text-xl font-semibold text-gray-900">
                 {getStudioName(booking.studio_id)}
               </h3>
-              <div className="relative">
+              <div className="relative status-dropdown-container">
                 <button
-                  onDoubleClick={(e) => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     setShowStatusDropdown(showStatusDropdown === booking.id ? null : booking.id);
                   }}
-                  onClick={(e) => e.stopPropagation()}
                   className={`px-3 py-1 rounded-full text-xs font-medium border cursor-pointer hover:opacity-80 transition-opacity ${statusColors[booking.status]}`}
-                  title="Двоен клик за смяна на статут"
+                  title="Кликни за смяна на статус"
                 >
                   {statusLabels[booking.status]}
                 </button>

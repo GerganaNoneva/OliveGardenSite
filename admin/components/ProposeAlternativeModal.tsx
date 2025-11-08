@@ -224,7 +224,10 @@ export default function ProposeAlternativeModal({ booking, studios, onClose, onP
         status: 'proposed_dates',
         proposed_check_in: selectedCheckIn.toISOString().split('T')[0],
         proposed_check_out: selectedCheckOut.toISOString().split('T')[0],
-        proposed_studio_id: selectedStudio
+        proposed_studio_id: selectedStudio,
+        check_in: selectedCheckIn.toISOString().split('T')[0],
+        check_out: selectedCheckOut.toISOString().split('T')[0],
+        studio_id: selectedStudio
       })
       .eq('id', booking.id);
 

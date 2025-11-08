@@ -106,24 +106,9 @@ export default function BookingRequests({ studios }: BookingRequestsProps) {
     setChangingStatus(bookingId);
     setShowStatusDropdown(null);
 
-    const booking = bookings.find(b => b.id === bookingId);
-    if (!booking) {
-      setChangingStatus(null);
-      return;
-    }
-
-    const updateData: Partial<AdminBooking> = { status: newStatus };
-
-    // Ако статусът се променя на "confirmed" и има предложени дати, използвай ги
-    if (newStatus === 'confirmed' && booking.proposed_check_in && booking.proposed_check_out && booking.proposed_studio_id) {
-      updateData.check_in = booking.proposed_check_in;
-      updateData.check_out = booking.proposed_check_out;
-      updateData.studio_id = booking.proposed_studio_id;
-    }
-
     const { error } = await supabase
       .from('bookings')
-      .update(updateData)
+      .update({ status: newStatus })
       .eq('id', bookingId);
 
     if (error) {

@@ -10,16 +10,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { SearchParams } from '../types';
 
 const mainImages = [
-  'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1034584/pexels-photo-1034584.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1268871/pexels-photo-1268871.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/2507007/pexels-photo-2507007.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1268871/pexels-photo-1268871.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://i.imgur.com/DZ8VPwe.jpg',
+  'https://i.imgur.com/Rylo5Kn.jpg',
+  'https://i.imgur.com/WYCPqBG.jpg',
+  'https://i.imgur.com/zIoPDSf.jpg',
+  'https://i.imgur.com/9M3LRNX.jpg',
+  'https://i.imgur.com/Zm7w1JI.jpg',
+  'https://i.imgur.com/PmuZlHj.jpg',
+  'https://i.imgur.com/XhsluGh.jpg',
 ];
 
 const house1Images = [

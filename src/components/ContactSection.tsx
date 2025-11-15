@@ -5,7 +5,7 @@ import { t } from '../translations';
 export default function ContactSection() {
   const { language } = useLanguage();
   const phone = '+359887870474';
-  const email = 'fanynoneva@gmail.com';
+  const email = 'olivegardenholiday@gmail.com';
   const facebookPage = 'https://www.facebook.com/profile.php?id=100063558434738';
 
   const handleViber = () => {

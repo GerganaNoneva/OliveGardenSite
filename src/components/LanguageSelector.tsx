@@ -15,6 +15,7 @@ export default function LanguageSelector() {
     { code: 'sr', flag: '🇷🇸' },
     { code: 'el', flag: '🇬🇷' },
     { code: 'ro', flag: '🇷🇴' },
+    { code: 'mk', flag: '🇲🇰' },
   ];
 
   useEffect(() => {

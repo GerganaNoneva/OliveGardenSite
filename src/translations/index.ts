@@ -97,6 +97,7 @@ export const translations = {
       sr: 'Српски',
       el: 'Ελληνικά',
       ro: 'Română',
+      mk: 'Македонски',
     },
   },
   en: {
@@ -195,6 +196,7 @@ export const translations = {
       sr: 'Српски',
       el: 'Ελληνικά',
       ro: 'Română',
+      mk: 'Македонски',
     },
   },
   ru: {
@@ -293,6 +295,7 @@ export const translations = {
       sr: 'Српски',
       el: 'Ελληνικά',
       ro: 'Română',
+      mk: 'Македонски',
     },
   },
   sr: {
@@ -391,6 +394,7 @@ export const translations = {
       sr: 'Српски',
       el: 'Ελληνικά',
       ro: 'Română',
+      mk: 'Македонски',
     },
   },
   el: {
@@ -489,6 +493,7 @@ export const translations = {
       sr: 'Српски',
       el: 'Ελληνικά',
       ro: 'Română',
+      mk: 'Македонски',
     },
   },
   ro: {

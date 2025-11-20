@@ -43,6 +43,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
 
     if (searchParams.checkIn) {
       const checkIn = new Date(searchParams.checkIn);
+      checkIn.setHours(0, 0, 0, 0);
+      date.setHours(0, 0, 0, 0);
       if (date <= checkIn) {
         return t(language, 'search.errors.checkOutBeforeCheckIn');
       }
@@ -53,6 +55,14 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
 
   const isValidDateString = (value: string): boolean => {
     return /^\d{4}-\d{2}-\d{2}$/.test(value);
+  };
+
+  const formatDateForInput = (date: Date | null): string => {
+    if (!date) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   const handleCheckInChange = (value: string) => {
@@ -68,7 +78,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
       return;
     }
 
-    const date = new Date(value);
+    const [year, month, day] = value.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     onSearchChange({ ...searchParams, checkIn: date });
 
     const error = validateCheckInDate(date);
@@ -88,7 +99,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
       return;
     }
 
-    const date = new Date(value);
+    const [year, month, day] = value.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     onSearchChange({ ...searchParams, checkOut: date });
 
     const error = validateCheckOutDate(date);
@@ -115,7 +127,7 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
-            value={searchParams.checkIn?.toISOString().split('T')[0] || ''}
+            value={formatDateForInput(searchParams.checkIn)}
             onChange={(e) => handleCheckInChange(e.target.value)}
           />
           {checkInError && (
@@ -138,7 +150,7 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
-            value={searchParams.checkOut?.toISOString().split('T')[0] || ''}
+            value={formatDateForInput(searchParams.checkOut)}
             onChange={(e) => handleCheckOutChange(e.target.value)}
           />
           {checkOutError && (
@@ -156,39 +168,31 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             </div>
             {t(language, 'search.adults')}
           </label>
-          <input
-            type="number"
-            min="1"
-            max="8"
-            placeholder=""
-            className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
-              adultsError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
-            }`}
-            value={searchParams.adults ?? ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value === '') {
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                const newValue = Math.max(1, (searchParams.adults ?? 1) - 1);
                 setAdultsError(null);
-                onSearchChange({
-                  ...searchParams,
-                  adults: null
-                });
-              } else {
-                const num = parseInt(value);
-                if (num < 1) {
-                  setAdultsError(t(language, 'search.errors.minAdults'));
-                } else if (num > 8) {
-                  setAdultsError(language === 'bg' ? 'Максимум 8 възрастни' : 'Maximum 8 adults');
-                } else {
-                  setAdultsError(null);
-                }
-                onSearchChange({
-                  ...searchParams,
-                  adults: num || null
-                });
-              }
-            }}
-          />
+                onSearchChange({ ...searchParams, adults: newValue });
+              }}
+              className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+            >
+              −
+            </button>
+            <span className="text-2xl font-semibold w-12 text-center">{searchParams.adults ?? 1}</span>
+            <button
+              type="button"
+              onClick={() => {
+                const newValue = Math.min(8, (searchParams.adults ?? 1) + 1);
+                setAdultsError(null);
+                onSearchChange({ ...searchParams, adults: newValue });
+              }}
+              className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+            >
+              +
+            </button>
+          </div>
           {adultsError && (
             <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">
               <AlertCircle size={14} />
@@ -204,29 +208,29 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             </div>
             {t(language, 'search.children')}
           </label>
-          <input
-            type="number"
-            min="0"
-            max="8"
-            placeholder=""
-            className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white"
-            value={searchParams.children ?? ''}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value === '') {
-                onSearchChange({
-                  ...searchParams,
-                  children: null
-                });
-              } else {
-                const num = parseInt(value);
-                onSearchChange({
-                  ...searchParams,
-                  children: num >= 0 && num <= 8 ? num : null
-                });
-              }
-            }}
-          />
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                const newValue = Math.max(0, (searchParams.children ?? 0) - 1);
+                onSearchChange({ ...searchParams, children: newValue });
+              }}
+              className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+            >
+              −
+            </button>
+            <span className="text-2xl font-semibold w-12 text-center">{searchParams.children ?? 0}</span>
+            <button
+              type="button"
+              onClick={() => {
+                const newValue = Math.min(8, (searchParams.children ?? 0) + 1);
+                onSearchChange({ ...searchParams, children: newValue });
+              }}
+              className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+            >
+              +
+            </button>
+          </div>
         </div>
 
         <button

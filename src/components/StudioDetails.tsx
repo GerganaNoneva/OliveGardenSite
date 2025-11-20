@@ -268,7 +268,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                   <span className="font-medium">1 {language === 'bg' ? 'разтегателен диван' : language === 'en' ? 'sofa bed' : language === 'ru' ? 'раскладной диван' : language === 'sr' ? 'раскладив кауч' : language === 'el' ? 'καναπές-κρεβάτι' : language === 'ro' ? 'canapea extensibilă' : language === 'mk' ? 'разложлив диван' : 'sofa bed'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
-                  <Bath className="text-blue-600" size={20} />
+                  <Bath className="text-gray-700" size={24} />
                   <span className="font-medium">2 {language === 'bg' ? 'бани' : language === 'en' ? 'bathrooms' : language === 'ru' ? 'ванные комнаты' : language === 'sr' ? 'купатила' : language === 'el' ? 'μπάνια' : language === 'ro' ? 'băi' : language === 'mk' ? 'бањи' : 'bathrooms'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">

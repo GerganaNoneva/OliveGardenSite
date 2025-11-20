@@ -73,9 +73,8 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
   };
 
   const shouldShowTwoMonths = () => {
-    if (!selectedCheckIn || !selectedCheckOut) return false;
-    return selectedCheckIn.getMonth() !== selectedCheckOut.getMonth() ||
-           selectedCheckIn.getFullYear() !== selectedCheckOut.getFullYear();
+    // Винаги показваме 2 месеца
+    return true;
   };
 
   const [currentMonth, setCurrentMonth] = useState(getInitialMonth());
@@ -260,10 +259,10 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
 
       <div className="grid grid-cols-7 gap-2">
         {monthDays.map((day, index) => {
-          let bgColor = 'bg-white hover:bg-blue-50';
+          let bgColor = 'bg-green-100 hover:bg-green-200';
           let textColor = 'text-gray-800';
           let cursor = 'cursor-pointer';
-          let border = 'border border-gray-200';
+          let border = 'border border-green-300';
 
           if (!day.isCurrentMonth) {
             textColor = 'text-gray-400';
@@ -350,11 +349,11 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
 
       <div className="flex flex-wrap gap-6 mt-6 text-sm justify-center">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-red-100 rounded border border-gray-300"></div>
+          <div className="w-6 h-6 bg-red-100 rounded border border-red-300"></div>
           <span className="font-medium">{t(language, 'calendar.booked')}</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-white rounded border border-gray-300"></div>
+          <div className="w-6 h-6 bg-green-100 rounded border border-green-300"></div>
           <span className="font-medium">{t(language, 'calendar.available')}</span>
         </div>
       </div>

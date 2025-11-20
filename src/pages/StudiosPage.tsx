@@ -62,21 +62,71 @@ export default function StudiosPage() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     let filtered = [...studios];
 
-    if (searchParams.adults) {
+    const totalGuests = (searchParams.adults || 0) + (searchParams.children || 0);
+
+    if (totalGuests > 0) {
       filtered = filtered.filter(
-        (studio) => studio.capacity >= (searchParams.adults || 0) + (searchParams.children || 0)
+        (studio) => studio.capacity >= totalGuests
       );
     }
 
     if (searchParams.checkIn && searchParams.checkOut) {
-      // Filter by availability if dates are selected
-      // This is simplified - you'd need to check against actual bookings
+      const availableStudios = await Promise.all(
+        filtered.map(async (studio) => {
+          const isAvailable = await checkStudioAvailability(
+            studio.id,
+            searchParams.checkIn!,
+            searchParams.checkOut!
+          );
+          return isAvailable ? studio : null;
+        })
+      );
+      filtered = availableStudios.filter((s) => s !== null) as Studio[];
     }
 
     setFilteredStudios(filtered);
+  };
+
+  const checkStudioAvailability = async (
+    studioId: number,
+    checkIn: Date,
+    checkOut: Date
+  ): Promise<boolean> => {
+    try {
+      const { data: bookings, error } = await supabase
+        .from('bookings')
+        .select('check_in_date, check_out_date')
+        .eq('studio_id', studioId)
+        .in('status', ['confirmed', 'pending']);
+
+      if (error) throw error;
+
+      if (!bookings || bookings.length === 0) return true;
+
+      const checkInTime = checkIn.getTime();
+      const checkOutTime = checkOut.getTime();
+
+      for (const booking of bookings) {
+        const bookingCheckIn = new Date(booking.check_in_date).getTime();
+        const bookingCheckOut = new Date(booking.check_out_date).getTime();
+
+        if (
+          (checkInTime >= bookingCheckIn && checkInTime < bookingCheckOut) ||
+          (checkOutTime > bookingCheckIn && checkOutTime <= bookingCheckOut) ||
+          (checkInTime <= bookingCheckIn && checkOutTime >= bookingCheckOut)
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      return false;
+    }
   };
 
   return (
@@ -140,6 +190,10 @@ export default function StudiosPage() {
                 key={studio.id}
                 studio={studio}
                 onViewMore={setSelectedStudio}
+                checkIn={searchParams.checkIn}
+                checkOut={searchParams.checkOut}
+                adults={searchParams.adults || 1}
+                children={searchParams.children || 0}
               />
             ))}
           </div>

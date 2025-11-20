@@ -104,6 +104,9 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
           </label>
           <input
             type="date"
+            autoComplete="off"
+            name="check-in-date"
+            id="check-in-date"
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
@@ -127,6 +130,9 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
           </label>
           <input
             type="date"
+            autoComplete="off"
+            name="check-out-date"
+            id="check-out-date"
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}

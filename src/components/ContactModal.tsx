@@ -67,18 +67,17 @@ export default function ContactModal({ studio, checkIn, checkOut, adults, childr
       return;
     }
 
+    if (!phone.trim()) {
+      alert('Моля, въведете телефонен номер');
+      return;
+    }
+
     if (contactMethods.length === 0) {
       alert('Моля, изберете поне един начин за контакт');
       return;
     }
 
-    const needsPhone = contactMethods.includes('viber') || contactMethods.includes('whatsapp');
     const needsEmail = contactMethods.includes('email');
-
-    if (needsPhone && !phone.trim()) {
-      alert('Моля, въведете телефонен номер');
-      return;
-    }
 
     if (needsEmail && (!email.trim() || !email.includes('@'))) {
       alert('Моля, въведете валиден имейл адрес');
@@ -89,8 +88,8 @@ export default function ContactModal({ studio, checkIn, checkOut, adults, childr
       name: name.trim(),
       country,
       contactMethods,
-      phoneCountryCode: needsPhone ? phoneCountryCode : undefined,
-      phone: needsPhone ? phone.trim() : undefined,
+      phoneCountryCode,
+      phone: phone.trim(),
       email: needsEmail ? email.trim() : undefined,
     };
 
@@ -170,6 +169,31 @@ export default function ContactModal({ studio, checkIn, checkOut, adults, childr
             </div>
 
             <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t(language, 'contact.phone')}
+              </label>
+              <div className="flex gap-2">
+                <select
+                  value={phoneCountryCode}
+                  onChange={(e) => setPhoneCountryCode(e.target.value)}
+                  className="w-36 border border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                >
+                  {countries.map(c => (
+                    <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
+                  ))}
+                </select>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="123456789"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 {t(language, 'contact.contactMethods')}
               </label>
@@ -208,33 +232,6 @@ export default function ContactModal({ studio, checkIn, checkOut, adults, childr
                 </label>
               </div>
             </div>
-
-            {(contactMethods.includes('viber') || contactMethods.includes('whatsapp')) && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t(language, 'contact.phone')}
-                </label>
-                <div className="flex gap-2">
-                  <select
-                    value={phoneCountryCode}
-                    onChange={(e) => setPhoneCountryCode(e.target.value)}
-                    className="w-36 border border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
-                  >
-                    {countries.map(c => (
-                      <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="123456789"
-                    required
-                  />
-                </div>
-              </div>
-            )}
 
             {contactMethods.includes('email') && (
               <div className="mb-4">

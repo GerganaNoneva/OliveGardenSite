@@ -146,19 +146,17 @@ export default function ConfirmationModal({
               <span className="font-medium text-gray-800">{contactPreferences.country}</span>
             </div>
             <div className="flex items-center gap-2">
+              <Phone size={18} className="text-blue-600" />
+              <span className="text-gray-700">Телефон:</span>
+              <span className="font-medium text-gray-800">
+                {contactPreferences.phoneCountryCode} {contactPreferences.phone}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
               <div className="flex gap-1">{getContactMethodIcons()}</div>
               <span className="text-gray-700">{t(language, 'confirmation.contactMethods')}</span>
               <span className="font-medium text-gray-800">{getContactMethodLabels()}</span>
             </div>
-            {contactPreferences.phone && (
-              <div className="flex items-center gap-2">
-                <Phone size={18} className="text-blue-600" />
-                <span className="text-gray-700">Телефон:</span>
-                <span className="font-medium text-gray-800">
-                  {contactPreferences.phoneCountryCode} {contactPreferences.phone}
-                </span>
-              </div>
-            )}
             {contactPreferences.email && (
               <div className="flex items-center gap-2">
                 <Mail size={18} className="text-blue-600" />

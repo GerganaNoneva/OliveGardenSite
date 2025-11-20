@@ -46,8 +46,8 @@ export interface ContactPreferences {
   name: string;
   country: string;
   contactMethods: ('viber' | 'whatsapp' | 'email')[];
-  phoneCountryCode?: string;
-  phone?: string;
+  phoneCountryCode: string;
+  phone: string;
   email?: string;
 }
 

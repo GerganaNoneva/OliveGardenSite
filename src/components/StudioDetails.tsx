@@ -251,22 +251,24 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
             {studio.name === 'Апартамент №1' ? (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="3" y="7" width="18" height="11" rx="2" />
-                    <path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="11" width="20" height="9" rx="1" />
+                    <path d="M2 11V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
+                    <line x1="12" y1="11" x2="12" y2="20" />
                   </svg>
                   <span className="font-medium">3 {language === 'bg' ? 'двойни легла' : language === 'en' ? 'double beds' : language === 'ru' ? 'двуспальные кровати' : language === 'sr' ? 'брачна кревета' : language === 'el' ? 'διπλά κρεβάτια' : language === 'ro' ? 'paturi duble' : language === 'mk' ? 'брачни кревети' : 'double beds'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="2" y="8" width="20" height="10" rx="1" />
-                    <path d="M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
-                    <path d="M2 18v2h20v-2" />
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="9" width="18" height="9" rx="1" />
+                    <path d="M3 9V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2" />
+                    <rect x="5" y="15" width="5" height="3" />
+                    <rect x="14" y="15" width="5" height="3" />
                   </svg>
                   <span className="font-medium">1 {language === 'bg' ? 'разтегателен диван' : language === 'en' ? 'sofa bed' : language === 'ru' ? 'раскладной диван' : language === 'sr' ? 'раскладив кауч' : language === 'el' ? 'καναπές-κρεβάτι' : language === 'ro' ? 'canapea extensibilă' : language === 'mk' ? 'разложлив диван' : 'sofa bed'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 6L9 4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
                     <path d="M6 8h12a2 2 0 0 1 2 2v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a2 2 0 0 1 2-2z" />
                     <circle cx="12" cy="14" r="2" />
@@ -276,7 +278,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                   <span className="font-medium">2 {language === 'bg' ? 'бани' : language === 'en' ? 'bathrooms' : language === 'ru' ? 'ванные комнаты' : language === 'sr' ? 'купатила' : language === 'el' ? 'μπάνια' : language === 'ro' ? 'băi' : language === 'mk' ? 'бањи' : 'bathrooms'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
                     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />

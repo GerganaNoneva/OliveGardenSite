@@ -377,32 +377,50 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
                         {t(language, 'search.adults')}
                       </label>
-                      <input
-                        type="number"
-                        min="1"
-                        max={studio.capacity}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        value={adults}
-                        onChange={(e) => setAdults(parseInt(e.target.value) || 1)}
-                      />
+                      <div className="flex items-center gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setAdults(Math.max(1, adults - 1))}
+                          className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+                        >
+                          −
+                        </button>
+                        <span className="text-2xl font-semibold w-12 text-center">{adults}</span>
+                        <button
+                          type="button"
+                          onClick={() => setAdults(Math.min(studio.capacity, adults + 1))}
+                          className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t(language, 'search.children')}
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        {language === 'bg' ? 'Деца (до 7 години)' : language === 'en' ? 'Children (up to 7 years)' : language === 'ru' ? 'Дети (до 7 лет)' : language === 'sr' ? 'Деца (до 7 година)' : language === 'el' ? 'Παιδιά (έως 7 ετών)' : language === 'ro' ? 'Copii (până la 7 ani)' : language === 'mk' ? 'Деца (до 7 години)' : 'Children (up to 7 years)'}
                       </label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        value={children}
-                        onChange={(e) => setChildren(parseInt(e.target.value) || 0)}
-                      />
+                      <div className="flex items-center gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setChildren(Math.max(0, children - 1))}
+                          className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+                        >
+                          −
+                        </button>
+                        <span className="text-2xl font-semibold w-12 text-center">{children}</span>
+                        <button
+                          type="button"
+                          onClick={() => setChildren(Math.min(5, children + 1))}
+                          className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
 

@@ -350,30 +350,14 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         renderMonth(days, currentMonth)
       )}
 
-      <div className="flex flex-wrap gap-4 mt-6 text-sm">
+      <div className="flex flex-wrap gap-6 mt-6 text-sm justify-center">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-blue-600 rounded"></div>
-          <span>{t(language, 'calendar.selected')}</span>
+          <div className="w-6 h-6 bg-red-100 rounded border border-gray-300"></div>
+          <span className="font-medium">{t(language, 'calendar.booked')}</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-blue-200 rounded"></div>
-          <span>{t(language, 'calendar.period')}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-100 rounded"></div>
-          <span>{t(language, 'calendar.booked')}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-4 border-red-500 rounded bg-white"></div>
-          <span>{t(language, 'calendar.confirmed')}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-4 border-yellow-500 rounded bg-white"></div>
-          <span>{t(language, 'calendar.pending')}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-4 border-gray-400 rounded bg-white"></div>
-          <span>{t(language, 'calendar.rejected')}</span>
+          <div className="w-6 h-6 bg-white rounded border border-gray-300"></div>
+          <span className="font-medium">{t(language, 'calendar.available')}</span>
         </div>
       </div>
     </div>

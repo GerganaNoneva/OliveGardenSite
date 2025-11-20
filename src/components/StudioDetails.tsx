@@ -268,13 +268,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                   <span className="font-medium">1 {language === 'bg' ? 'разтегателен диван' : language === 'en' ? 'sofa bed' : language === 'ru' ? 'раскладной диван' : language === 'sr' ? 'раскладив кауч' : language === 'el' ? 'καναπές-κρεβάτι' : language === 'ro' ? 'canapea extensibilă' : language === 'mk' ? 'разложлив диван' : 'sofa bed'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 6L9 4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
-                    <path d="M6 8h12a2 2 0 0 1 2 2v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a2 2 0 0 1 2-2z" />
-                    <circle cx="12" cy="14" r="2" />
-                    <path d="M6 8v-2" />
-                    <path d="M18 8v-2" />
-                  </svg>
+                  <Bath className="text-blue-600" size={20} />
                   <span className="font-medium">2 {language === 'bg' ? 'бани' : language === 'en' ? 'bathrooms' : language === 'ru' ? 'ванные комнаты' : language === 'sr' ? 'купатила' : language === 'el' ? 'μπάνια' : language === 'ro' ? 'băi' : language === 'mk' ? 'бањи' : 'bathrooms'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">

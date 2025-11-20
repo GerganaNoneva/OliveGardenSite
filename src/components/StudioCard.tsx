@@ -108,11 +108,11 @@ export default function StudioCard({
                 <div className="font-semibold">{nightsText[language]}, {guestsText[language]}</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">BGN {totalPrice}</div>
+                <div className="text-2xl font-bold text-gray-900">€{totalPrice}</div>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xs text-gray-500">{priceText[language]} BGN {totalPrice}</div>
+              <div className="text-xs text-gray-500">{priceText[language]} €{totalPrice}</div>
               <div className="text-xs text-gray-500">{taxesText[language]}</div>
             </div>
           </div>

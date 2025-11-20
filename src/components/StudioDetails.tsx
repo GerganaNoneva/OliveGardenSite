@@ -241,7 +241,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
               <p className="text-gray-600 leading-relaxed">{getStudioDescription(studio, language)}</p>
             </div>
 
-            {studio.name === 'Апартамент №1' ? (
+            {studio.name === 'Апартамент №1' || studio.name === 'Апартамент №4' ? (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="flex items-center gap-2 text-gray-700">
                   <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -367,7 +367,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
             <div className="border-t pt-6">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">{t(language, 'studio.priceInfo')}</h3>
-                {studio.name === 'Апартамент №1' || studio.name === 'Студио №2' || studio.name === 'Студио №3' ? (
+                {studio.name === 'Апартамент №1' || studio.name === 'Апартамент №4' || studio.name === 'Студио №2' || studio.name === 'Студио №3' ? (
                   <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">{t(language, 'studio.lowSeason')}</span>

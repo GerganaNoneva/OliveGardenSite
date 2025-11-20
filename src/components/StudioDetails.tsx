@@ -248,24 +248,63 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
               <p className="text-gray-600 leading-relaxed">{getStudioDescription(studio, language)}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-gray-700">
-                <Bed className="text-blue-600" size={20} />
-                <span>{studio.bedrooms} {t(language, 'studio.bedrooms')}</span>
+            {studio.name === 'Апартамент №1' ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="3" y="7" width="18" height="11" rx="2" />
+                    <path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                  </svg>
+                  <span className="font-medium">3 {language === 'bg' ? 'двойни легла' : language === 'en' ? 'double beds' : language === 'ru' ? 'двуспальные кровати' : language === 'sr' ? 'брачна кревета' : language === 'el' ? 'διπλά κρεβάτια' : language === 'ro' ? 'paturi duble' : language === 'mk' ? 'брачни кревети' : 'double beds'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="2" y="8" width="20" height="10" rx="1" />
+                    <path d="M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
+                    <path d="M2 18v2h20v-2" />
+                  </svg>
+                  <span className="font-medium">1 {language === 'bg' ? 'разтегателен диван' : language === 'en' ? 'sofa bed' : language === 'ru' ? 'раскладной диван' : language === 'sr' ? 'раскладив кауч' : language === 'el' ? 'καναπές-κρεβάτι' : language === 'ro' ? 'canapea extensibilă' : language === 'mk' ? 'разложлив диван' : 'sofa bed'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M9 6L9 4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                    <path d="M6 8h12a2 2 0 0 1 2 2v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a2 2 0 0 1 2-2z" />
+                    <circle cx="12" cy="14" r="2" />
+                    <path d="M6 8v-2" />
+                    <path d="M18 8v-2" />
+                  </svg>
+                  <span className="font-medium">2 {language === 'bg' ? 'бани' : language === 'en' ? 'bathrooms' : language === 'ru' ? 'ванные комнаты' : language === 'sr' ? 'купатила' : language === 'el' ? 'μπάνια' : language === 'ro' ? 'băi' : language === 'mk' ? 'бањи' : 'bathrooms'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                  <span className="font-medium">6 + 2 {language === 'bg' ? 'гости' : language === 'en' ? 'guests' : language === 'ru' ? 'гостей' : language === 'sr' ? 'гостију' : language === 'el' ? 'επισκέπτες' : language === 'ro' ? 'oaspeți' : language === 'mk' ? 'гости' : 'guests'}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-700">
-                <Bath className="text-blue-600" size={20} />
-                <span>{studio.bathrooms} {t(language, 'studio.bathrooms')}</span>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Bed className="text-blue-600" size={20} />
+                  <span>{studio.bedrooms} {t(language, 'studio.bedrooms')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Bath className="text-blue-600" size={20} />
+                  <span>{studio.bathrooms} {t(language, 'studio.bathrooms')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Bed className="text-blue-600" size={20} />
+                  <span>{studio.beds} {t(language, 'studio.beds')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Users className="text-blue-600" size={20} />
+                  <span>{t(language, 'studio.capacity', { count: studio.capacity })}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-700">
-                <Bed className="text-blue-600" size={20} />
-                <span>{studio.beds} {t(language, 'studio.beds')}</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700">
-                <Users className="text-blue-600" size={20} />
-                <span>{t(language, 'studio.capacity', { count: studio.capacity })}</span>
-              </div>
-            </div>
+            )}
 
             <div className="mb-6">
               <h3 className="text-xl font-bold text-gray-800 mb-3">{t(language, 'studio.amenities')}</h3>
@@ -282,20 +321,33 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
             <div className="border-t pt-6">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">{t(language, 'studio.priceInfo')}</h3>
-                <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">{t(language, 'studio.basePrice')}</span>
-                    <span className="font-semibold text-gray-800">€{studio.price_per_night}/{t(language, 'studio.perNight')}</span>
+                {studio.name === 'Апартамент №1' ? (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">{t(language, 'studio.lowSeason')}</span>
+                      <span className="font-semibold text-green-600">€{studio.price_per_night}/{t(language, 'studio.perNight')}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">{t(language, 'studio.highSeason')}</span>
+                      <span className="font-semibold text-orange-600">€{studio.price_per_night + studio.high_season_markup}/{t(language, 'studio.perNight')}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">{t(language, 'studio.lowSeason')}</span>
-                    <span className="font-semibold text-green-600">€{studio.price_per_night - studio.low_season_discount}/{t(language, 'studio.perNight')}</span>
+                ) : (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">{t(language, 'studio.basePrice')}</span>
+                      <span className="font-semibold text-gray-800">€{studio.price_per_night}/{t(language, 'studio.perNight')}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">{t(language, 'studio.lowSeason')}</span>
+                      <span className="font-semibold text-green-600">€{studio.price_per_night - studio.low_season_discount}/{t(language, 'studio.perNight')}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">{t(language, 'studio.highSeason')}</span>
+                      <span className="font-semibold text-orange-600">€{studio.price_per_night + studio.high_season_markup}/{t(language, 'studio.perNight')}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">{t(language, 'studio.highSeason')}</span>
-                    <span className="font-semibold text-orange-600">€{studio.price_per_night + studio.high_season_markup}/{t(language, 'studio.perNight')}</span>
-                  </div>
-                </div>
+                )}
               </div>
               <div className="flex items-center justify-center gap-4 mb-4">
                 {!showAvailability && (

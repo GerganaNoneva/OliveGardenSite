@@ -16,6 +16,14 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
   const [checkOutError, setCheckOutError] = useState<string | null>(null);
   const [adultsError, setAdultsError] = useState<string | null>(null);
 
+  const [checkInDay, setCheckInDay] = useState<string>(searchParams.checkIn?.getDate().toString() || '');
+  const [checkInMonth, setCheckInMonth] = useState<string>(searchParams.checkIn ? (searchParams.checkIn.getMonth() + 1).toString() : '');
+  const [checkInYear, setCheckInYear] = useState<string>(searchParams.checkIn?.getFullYear().toString() || '');
+
+  const [checkOutDay, setCheckOutDay] = useState<string>(searchParams.checkOut?.getDate().toString() || '');
+  const [checkOutMonth, setCheckOutMonth] = useState<string>(searchParams.checkOut ? (searchParams.checkOut.getMonth() + 1).toString() : '');
+  const [checkOutYear, setCheckOutYear] = useState<string>(searchParams.checkOut?.getFullYear().toString() || '');
+
   const isDateInSeason = (date: Date): boolean => {
     const month = date.getMonth();
     return month >= 4 && month <= 8;
@@ -53,63 +61,57 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     return null;
   };
 
-  const isValidDateString = (value: string): boolean => {
-    return /^\d{4}-\d{2}-\d{2}$/.test(value);
-  };
 
-  const formatDateForInput = (date: Date | null): string => {
-    if (!date) return '';
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const updateCheckInDate = (day: string, month: string, year: string) => {
+    const d = parseInt(day);
+    const m = parseInt(month);
+    const y = parseInt(year);
 
-  const getMinDate = () => {
-    const today = new Date();
-    return formatDateForInput(today);
-  };
-
-  const getMaxDate = () => {
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() + 2);
-    return formatDateForInput(maxDate);
-  };
-
-  const handleCheckInChange = (value: string) => {
-    if (!value) {
+    if (!day || !month || !year || isNaN(d) || isNaN(m) || isNaN(y)) {
       setCheckInError(null);
       onSearchChange({ ...searchParams, checkIn: null });
       return;
     }
 
-    if (!isValidDateString(value)) {
+    if (d < 1 || d > 31 || m < 1 || m > 12 || y < 2024 || y > 2030) {
+      setCheckInError(null);
       return;
     }
 
-    const [year, month, day] = value.split('-').map(Number);
-    const date = new Date(year, month - 1, day);
-    onSearchChange({ ...searchParams, checkIn: date });
+    const date = new Date(y, m - 1, d);
+    if (date.getDate() !== d || date.getMonth() !== m - 1 || date.getFullYear() !== y) {
+      setCheckInError(language === 'bg' ? 'Невалидна дата' : 'Invalid date');
+      return;
+    }
 
+    onSearchChange({ ...searchParams, checkIn: date });
     const error = validateCheckInDate(date);
     setCheckInError(error);
   };
 
-  const handleCheckOutChange = (value: string) => {
-    if (!value) {
+  const updateCheckOutDate = (day: string, month: string, year: string) => {
+    const d = parseInt(day);
+    const m = parseInt(month);
+    const y = parseInt(year);
+
+    if (!day || !month || !year || isNaN(d) || isNaN(m) || isNaN(y)) {
       setCheckOutError(null);
       onSearchChange({ ...searchParams, checkOut: null });
       return;
     }
 
-    if (!isValidDateString(value)) {
+    if (d < 1 || d > 31 || m < 1 || m > 12 || y < 2024 || y > 2030) {
+      setCheckOutError(null);
       return;
     }
 
-    const [year, month, day] = value.split('-').map(Number);
-    const date = new Date(year, month - 1, day);
-    onSearchChange({ ...searchParams, checkOut: date });
+    const date = new Date(y, m - 1, d);
+    if (date.getDate() !== d || date.getMonth() !== m - 1 || date.getFullYear() !== y) {
+      setCheckOutError(language === 'bg' ? 'Невалидна дата' : 'Invalid date');
+      return;
+    }
 
+    onSearchChange({ ...searchParams, checkOut: date });
     const error = validateCheckOutDate(date);
     setCheckOutError(error);
   };
@@ -129,16 +131,50 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             </div>
             {t(language, 'search.checkIn')}
           </label>
-          <input
-            type="date"
-            min={getMinDate()}
-            max={getMaxDate()}
-            className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
-              checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
-            }`}
-            value={formatDateForInput(searchParams.checkIn)}
-            onChange={(e) => handleCheckInChange(e.target.value)}
-          />
+          <div className="flex gap-2">
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Ден' : 'Day'}
+              min="1"
+              max="31"
+              className={`w-20 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkInDay}
+              onChange={(e) => {
+                setCheckInDay(e.target.value);
+                updateCheckInDate(e.target.value, checkInMonth, checkInYear);
+              }}
+            />
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Месец' : 'Month'}
+              min="1"
+              max="12"
+              className={`w-24 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkInMonth}
+              onChange={(e) => {
+                setCheckInMonth(e.target.value);
+                updateCheckInDate(checkInDay, e.target.value, checkInYear);
+              }}
+            />
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Година' : 'Year'}
+              min="2024"
+              max="2030"
+              className={`w-28 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkInYear}
+              onChange={(e) => {
+                setCheckInYear(e.target.value);
+                updateCheckInDate(checkInDay, checkInMonth, e.target.value);
+              }}
+            />
+          </div>
           {checkInError && (
             <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">
               <AlertCircle size={14} />
@@ -154,16 +190,50 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
             </div>
             {t(language, 'search.checkOut')}
           </label>
-          <input
-            type="date"
-            min={getMinDate()}
-            max={getMaxDate()}
-            className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
-              checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
-            }`}
-            value={formatDateForInput(searchParams.checkOut)}
-            onChange={(e) => handleCheckOutChange(e.target.value)}
-          />
+          <div className="flex gap-2">
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Ден' : 'Day'}
+              min="1"
+              max="31"
+              className={`w-20 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkOutDay}
+              onChange={(e) => {
+                setCheckOutDay(e.target.value);
+                updateCheckOutDate(e.target.value, checkOutMonth, checkOutYear);
+              }}
+            />
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Месец' : 'Month'}
+              min="1"
+              max="12"
+              className={`w-24 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkOutMonth}
+              onChange={(e) => {
+                setCheckOutMonth(e.target.value);
+                updateCheckOutDate(checkOutDay, e.target.value, checkOutYear);
+              }}
+            />
+            <input
+              type="number"
+              placeholder={language === 'bg' ? 'Година' : 'Year'}
+              min="2024"
+              max="2030"
+              className={`w-28 border-2 rounded-xl px-3 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
+                checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+              }`}
+              value={checkOutYear}
+              onChange={(e) => {
+                setCheckOutYear(e.target.value);
+                updateCheckOutDate(checkOutDay, checkOutMonth, e.target.value);
+              }}
+            />
+          </div>
           {checkOutError && (
             <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">
               <AlertCircle size={14} />

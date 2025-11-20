@@ -73,8 +73,6 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     }
 
     if (!isValidDateString(value)) {
-      setCheckInError(null);
-      onSearchChange({ ...searchParams, checkIn: null });
       return;
     }
 
@@ -94,8 +92,6 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     }
 
     if (!isValidDateString(value)) {
-      setCheckOutError(null);
-      onSearchChange({ ...searchParams, checkOut: null });
       return;
     }
 

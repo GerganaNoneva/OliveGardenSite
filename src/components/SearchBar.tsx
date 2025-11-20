@@ -14,6 +14,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
   const { language } = useLanguage();
   const [checkInError, setCheckInError] = useState<string | null>(null);
   const [checkOutError, setCheckOutError] = useState<string | null>(null);
+  const [checkInValue, setCheckInValue] = useState('');
+  const [checkOutValue, setCheckOutValue] = useState('');
 
   const isDateInSeason = (date: Date): boolean => {
     const month = date.getMonth();
@@ -26,15 +28,9 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     return false;
   };
 
-  const formatDateForInput = (date: Date | null): string => {
-    if (!date) return '';
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const handleCheckInInput = (value: string) => {
+    setCheckInValue(value);
 
-  const handleCheckInChange = (value: string) => {
     if (!value) {
       setCheckInError(null);
       onSearchChange({ ...searchParams, checkIn: null });
@@ -42,16 +38,20 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     }
 
     const date = new Date(value);
-    onSearchChange({ ...searchParams, checkIn: date });
+    if (!isNaN(date.getTime())) {
+      onSearchChange({ ...searchParams, checkIn: date });
 
-    if (!isDateInSeason(date)) {
-      setCheckInError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
-    } else {
-      setCheckInError(null);
+      if (!isDateInSeason(date)) {
+        setCheckInError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
+      } else {
+        setCheckInError(null);
+      }
     }
   };
 
-  const handleCheckOutChange = (value: string) => {
+  const handleCheckOutInput = (value: string) => {
+    setCheckOutValue(value);
+
     if (!value) {
       setCheckOutError(null);
       onSearchChange({ ...searchParams, checkOut: null });
@@ -59,12 +59,14 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     }
 
     const date = new Date(value);
-    onSearchChange({ ...searchParams, checkOut: date });
+    if (!isNaN(date.getTime())) {
+      onSearchChange({ ...searchParams, checkOut: date });
 
-    if (!isDateInSeason(date)) {
-      setCheckOutError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
-    } else {
-      setCheckOutError(null);
+      if (!isDateInSeason(date)) {
+        setCheckOutError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
+      } else {
+        setCheckOutError(null);
+      }
     }
   };
 
@@ -77,22 +79,20 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
       </div>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
         <div className="flex flex-col group">
-          <label className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+          <label htmlFor="checkin-input" className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
             <div className="p-1.5 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
               <Calendar size={16} className="text-blue-600" />
             </div>
             {t(language, 'search.checkIn')}
           </label>
           <input
+            id="checkin-input"
             type="date"
-            autoComplete="off"
-            name="check-in-date"
-            id="check-in-date"
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
-            value={formatDateForInput(searchParams.checkIn)}
-            onChange={(e) => handleCheckInChange(e.target.value)}
+            value={checkInValue}
+            onChange={(e) => handleCheckInInput(e.target.value)}
           />
           {checkInError && (
             <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">
@@ -103,22 +103,20 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
         </div>
 
         <div className="flex flex-col group">
-          <label className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+          <label htmlFor="checkout-input" className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
             <div className="p-1.5 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
               <Calendar size={16} className="text-blue-600" />
             </div>
             {t(language, 'search.checkOut')}
           </label>
           <input
+            id="checkout-input"
             type="date"
-            autoComplete="off"
-            name="check-out-date"
-            id="check-out-date"
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
-            value={formatDateForInput(searchParams.checkOut)}
-            onChange={(e) => handleCheckOutChange(e.target.value)}
+            value={checkOutValue}
+            onChange={(e) => handleCheckOutInput(e.target.value)}
           />
           {checkOutError && (
             <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">

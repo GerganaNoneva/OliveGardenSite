@@ -65,6 +65,22 @@ const amenityTranslations: Record<string, Record<Language, string>> = {
     el: 'Πλυντήριο',
     ro: 'Mașină de spălat'
   },
+  'Пералня': {
+    bg: 'Пералня',
+    en: 'Washing machine',
+    ru: 'Стиральная машина',
+    sr: 'Машина за прање веша',
+    el: 'Πλυντήριο',
+    ro: 'Mașină de spălat'
+  },
+  'Сушилня': {
+    bg: 'Сушилня',
+    en: 'Dryer',
+    ru: 'Сушильная машина',
+    sr: 'Машина за сушење веша',
+    el: 'Στεγνωτήριο',
+    ro: 'Uscător de rufe'
+  },
   'Барбекю': {
     bg: 'Барбекю',
     en: 'BBQ',
@@ -168,6 +184,46 @@ const amenityTranslations: Record<string, Record<Language, string>> = {
     sr: 'Поглед на планине',
     el: 'Θέα στο βουνό',
     ro: 'Vedere la munte'
+  },
+  'Котлон': {
+    bg: 'Котлон',
+    en: 'Hot plate',
+    ru: 'Электроплита',
+    sr: 'Електрична плоча',
+    el: 'Ηλεκτρική εστία',
+    ro: 'Plită electrică'
+  },
+  'Кафе машина': {
+    bg: 'Кафе машина',
+    en: 'Coffee machine',
+    ru: 'Кофемашина',
+    sr: 'Апарат за кафу',
+    el: 'Μηχανή καφέ',
+    ro: 'Mașină de cafea'
+  },
+  'Електрическа кана': {
+    bg: 'Електрическа кана',
+    en: 'Electric kettle',
+    ru: 'Электрический чайник',
+    sr: 'Електрично кувало',
+    el: 'Ηλεκτρικός βραστήρας',
+    ro: 'Fierbător electric'
+  },
+  'Съдомиялна': {
+    bg: 'Съдомиялна',
+    en: 'Dishwasher',
+    ru: 'Посудомоечная машина',
+    sr: 'Машина за прање судова',
+    el: 'Πλυντήριο πιάτων',
+    ro: 'Mașină de spălat vase'
+  },
+  'Фурна': {
+    bg: 'Фурна',
+    en: 'Oven',
+    ru: 'Духовка',
+    sr: 'Рерна',
+    el: 'Φούρνος',
+    ro: 'Cuptor'
   }
 };
 

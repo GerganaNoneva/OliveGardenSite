@@ -274,6 +274,39 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
                   <span className="font-medium">6 + 2 {language === 'bg' ? 'гости' : language === 'en' ? 'guests' : language === 'ru' ? 'гостей' : language === 'sr' ? 'гостију' : language === 'el' ? 'επισκέπτες' : language === 'ro' ? 'oaspeți' : language === 'mk' ? 'гости' : 'guests'}</span>
                 </div>
               </div>
+            ) : studio.name === 'Студио №2' ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="11" width="20" height="9" rx="1" />
+                    <path d="M2 11V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
+                    <line x1="12" y1="11" x2="12" y2="20" />
+                  </svg>
+                  <span className="font-medium">2 {language === 'bg' ? 'двойни легла' : language === 'en' ? 'double beds' : language === 'ru' ? 'двуспальные кровати' : language === 'sr' ? 'брачна кревета' : language === 'el' ? 'διπλά κρεβάτια' : language === 'ro' ? 'paturi duble' : language === 'mk' ? 'брачни кревети' : 'double beds'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="9" width="18" height="9" rx="1" />
+                    <path d="M3 9V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2" />
+                    <rect x="5" y="15" width="5" height="3" />
+                    <rect x="14" y="15" width="5" height="3" />
+                  </svg>
+                  <span className="font-medium">1 {language === 'bg' ? 'разтегателен диван' : language === 'en' ? 'sofa bed' : language === 'ru' ? 'раскладной диван' : language === 'sr' ? 'раскладив кауч' : language === 'el' ? 'καναπές-κρεβάτι' : language === 'ro' ? 'canapea extensibilă' : language === 'mk' ? 'разложлив диван' : 'sofa bed'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Bath className="text-gray-700" size={24} />
+                  <span className="font-medium">1 {language === 'bg' ? 'баня' : language === 'en' ? 'bathroom' : language === 'ru' ? 'ванная комната' : language === 'sr' ? 'купатило' : language === 'el' ? 'μπάνιο' : language === 'ro' ? 'baie' : language === 'mk' ? 'бања' : 'bathroom'}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                  <span className="font-medium">4 + 2 {language === 'bg' ? 'гости' : language === 'en' ? 'guests' : language === 'ru' ? 'гостей' : language === 'sr' ? 'гостију' : language === 'el' ? 'επισκέπτες' : language === 'ro' ? 'oaspeți' : language === 'mk' ? 'гости' : 'guests'}</span>
+                </div>
+              </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="flex items-center gap-2 text-gray-700">
@@ -310,7 +343,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
             <div className="border-t pt-6">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">{t(language, 'studio.priceInfo')}</h3>
-                {studio.name === 'Апартамент №1' ? (
+                {studio.name === 'Апартамент №1' || studio.name === 'Студио №2' ? (
                   <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">{t(language, 'studio.lowSeason')}</span>

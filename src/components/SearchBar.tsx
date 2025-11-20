@@ -14,43 +14,16 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
   const { language } = useLanguage();
   const [checkInError, setCheckInError] = useState<string | null>(null);
   const [checkOutError, setCheckOutError] = useState<string | null>(null);
-  const [adultsError, setAdultsError] = useState<string | null>(null);
 
   const isDateInSeason = (date: Date): boolean => {
     const month = date.getMonth();
-    return month >= 4 && month <= 8;
-  };
+    const day = date.getDate();
 
-  const validateCheckInDate = (date: Date): string | null => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    if (month === 4 && day >= 1) return true;
+    if (month >= 5 && month <= 7) return true;
+    if (month === 8 && day <= 30) return true;
 
-    if (date < today) {
-      return t(language, 'search.errors.pastDate');
-    }
-
-    if (!isDateInSeason(date)) {
-      return t(language, 'search.errors.seasonOnly');
-    }
-
-    return null;
-  };
-
-  const validateCheckOutDate = (date: Date): string | null => {
-    if (!isDateInSeason(date)) {
-      return t(language, 'search.errors.seasonOnly');
-    }
-
-    if (searchParams.checkIn) {
-      const checkIn = new Date(searchParams.checkIn);
-      checkIn.setHours(0, 0, 0, 0);
-      date.setHours(0, 0, 0, 0);
-      if (date <= checkIn) {
-        return t(language, 'search.errors.checkOutBeforeCheckIn');
-      }
-    }
-
-    return null;
+    return false;
   };
 
   const formatDateForInput = (date: Date | null): string => {
@@ -70,8 +43,12 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
 
     const date = new Date(value);
     onSearchChange({ ...searchParams, checkIn: date });
-    const error = validateCheckInDate(date);
-    setCheckInError(error);
+
+    if (!isDateInSeason(date)) {
+      setCheckInError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
+    } else {
+      setCheckInError(null);
+    }
   };
 
   const handleCheckOutChange = (value: string) => {
@@ -83,8 +60,12 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
 
     const date = new Date(value);
     onSearchChange({ ...searchParams, checkOut: date });
-    const error = validateCheckOutDate(date);
-    setCheckOutError(error);
+
+    if (!isDateInSeason(date)) {
+      setCheckOutError(language === 'bg' ? 'Датата трябва да е между 1 май и 30 септември' : 'Date must be between May 1 and September 30');
+    } else {
+      setCheckOutError(null);
+    }
   };
 
   return (
@@ -159,7 +140,6 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
               type="button"
               onClick={() => {
                 const newValue = Math.max(1, (searchParams.adults ?? 1) - 1);
-                setAdultsError(null);
                 onSearchChange({ ...searchParams, adults: newValue });
               }}
               className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
@@ -171,7 +151,6 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
               type="button"
               onClick={() => {
                 const newValue = Math.min(8, (searchParams.adults ?? 1) + 1);
-                setAdultsError(null);
                 onSearchChange({ ...searchParams, adults: newValue });
               }}
               className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-xl font-bold transition-colors"
@@ -179,12 +158,6 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
               +
             </button>
           </div>
-          {adultsError && (
-            <div className="flex items-center gap-1 mt-2 text-red-600 text-xs">
-              <AlertCircle size={14} />
-              <span>{adultsError}</span>
-            </div>
-          )}
         </div>
 
         <div className="flex flex-col group">

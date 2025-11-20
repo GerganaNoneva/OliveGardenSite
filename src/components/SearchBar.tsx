@@ -65,6 +65,17 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
     return `${year}-${month}-${day}`;
   };
 
+  const getMinDate = () => {
+    const today = new Date();
+    return formatDateForInput(today);
+  };
+
+  const getMaxDate = () => {
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 2);
+    return formatDateForInput(maxDate);
+  };
+
   const handleCheckInChange = (value: string) => {
     if (!value) {
       setCheckInError(null);
@@ -120,6 +131,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
           </label>
           <input
             type="date"
+            min={getMinDate()}
+            max={getMaxDate()}
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkInError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}
@@ -143,6 +156,8 @@ export default function SearchBar({ searchParams, onSearchChange, onSearch }: Se
           </label>
           <input
             type="date"
+            min={getMinDate()}
+            max={getMaxDate()}
             className={`border-2 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 transition-all hover:border-gray-300 bg-gray-50 focus:bg-white ${
               checkOutError ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
             }`}

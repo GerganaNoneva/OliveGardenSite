@@ -217,12 +217,13 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
         onDateSelect(day.date, null);
       } else {
         const current = new Date(selectedCheckIn);
+        current.setDate(current.getDate() + 1);
         while (current < day.date) {
-          current.setDate(current.getDate() + 1);
           if (isDateBooked(current.toISOString().split('T')[0])) {
             alert(getAlertMessage());
             return;
           }
+          current.setDate(current.getDate() + 1);
         }
         onDateSelect(selectedCheckIn, day.date);
         setSelectingCheckOut(false);

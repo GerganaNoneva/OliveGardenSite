@@ -61,7 +61,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
       data.forEach(booking => {
         const start = new Date(booking.check_in);
         const end = new Date(booking.check_out);
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
           const dateStr = d.toISOString().split('T')[0];
           dateInfoMap.set(dateStr, {
             date: dateStr,

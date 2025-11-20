@@ -91,18 +91,21 @@ export default function StudiosPage() {
   };
 
   const checkStudioAvailability = async (
-    studioId: number,
+    studioId: string,
     checkIn: Date,
     checkOut: Date
   ): Promise<boolean> => {
     try {
       const { data: bookings, error } = await supabase
         .from('bookings')
-        .select('check_in_date, check_out_date')
+        .select('check_in, check_out')
         .eq('studio_id', studioId)
         .in('status', ['confirmed', 'pending']);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching bookings:', error);
+        return true;
+      }
 
       if (!bookings || bookings.length === 0) return true;
 
@@ -110,8 +113,8 @@ export default function StudiosPage() {
       const checkOutTime = checkOut.getTime();
 
       for (const booking of bookings) {
-        const bookingCheckIn = new Date(booking.check_in_date).getTime();
-        const bookingCheckOut = new Date(booking.check_out_date).getTime();
+        const bookingCheckIn = new Date(booking.check_in).getTime();
+        const bookingCheckOut = new Date(booking.check_out).getTime();
 
         if (
           (checkInTime >= bookingCheckIn && checkInTime < bookingCheckOut) ||
@@ -125,7 +128,7 @@ export default function StudiosPage() {
       return true;
     } catch (error) {
       console.error('Error checking availability:', error);
-      return false;
+      return true;
     }
   };
 

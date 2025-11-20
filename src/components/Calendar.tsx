@@ -100,7 +100,7 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
   };
 
   const isDateBooked = (dateStr: string) => {
-    return bookedDates.some(bd => bd.date === dateStr);
+    return bookedDates.some(bd => bd.date === dateStr && bd.status === 'confirmed');
   };
 
   const isDateInSeason = (date: Date) => {
@@ -269,19 +269,17 @@ export default function Calendar({ bookedDates, selectedCheckIn, selectedCheckOu
             textColor = 'text-gray-400';
           }
 
-          if (day.isPast || day.isBooked) {
-            bgColor = 'bg-red-100';
+          if (day.isPast) {
+            bgColor = 'bg-gray-100';
             textColor = 'text-gray-400';
             cursor = 'cursor-not-allowed';
           }
 
-          // Цветни рамки според статуса на резервацията
+          // Само потвърдените резервации се показват като заети (червени)
           if (day.bookingStatus === 'confirmed') {
-            border = 'border-4 border-red-500'; // Потвърдена - червена рамка
-          } else if (day.bookingStatus === 'pending') {
-            border = 'border-4 border-yellow-500'; // Чакаща - жълта рамка
-          } else if (day.bookingStatus === 'rejected') {
-            border = 'border-4 border-gray-400'; // Отхвърлена - сива рамка
+            bgColor = 'bg-red-100';
+            textColor = 'text-gray-400';
+            cursor = 'cursor-not-allowed';
           }
 
           if (day.isSelected) {

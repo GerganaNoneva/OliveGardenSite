@@ -53,7 +53,7 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
       .from('bookings')
       .select('check_in, check_out, status')
       .eq('studio_id', studio.id)
-      .in('status', ['pending', 'confirmed', 'rejected']);
+      .eq('status', 'confirmed');
 
     if (!error && data) {
       const dateInfoMap = new Map<string, BookingDateInfo>();
@@ -63,17 +63,10 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
         const end = new Date(booking.check_out);
         for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
           const dateStr = d.toISOString().split('T')[0];
-          const existing = dateInfoMap.get(dateStr);
-
-          // Приоритет: confirmed > pending > rejected
-          if (!existing ||
-              (booking.status === 'confirmed') ||
-              (booking.status === 'pending' && existing.status === 'rejected')) {
-            dateInfoMap.set(dateStr, {
-              date: dateStr,
-              status: booking.status as 'pending' | 'confirmed' | 'rejected'
-            });
-          }
+          dateInfoMap.set(dateStr, {
+            date: dateStr,
+            status: 'confirmed'
+          });
         }
       });
 

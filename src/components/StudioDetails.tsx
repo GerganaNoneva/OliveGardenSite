@@ -334,12 +334,19 @@ export default function StudioDetails({ studio, onClose, preselectedCheckIn, pre
             ) : studio.name === 'Студио №6' ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="11" width="20" height="9" rx="1" />
-                    <path d="M2 11V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
-                    <line x1="12" y1="11" x2="12" y2="20" />
-                  </svg>
-                  <span className="font-medium">1 {language === 'bg' ? 'двойно легло' : language === 'en' ? 'double bed' : language === 'ru' ? 'двуспальная кровать' : language === 'sr' ? 'брачни кревет' : language === 'el' ? 'διπλό κρεβάτι' : language === 'ro' ? 'pat dublu' : language === 'mk' ? 'брачен кревет' : 'double bed'} + 1 {language === 'bg' ? 'единично легло' : language === 'en' ? 'single bed' : language === 'ru' ? 'одноместная кровать' : language === 'sr' ? 'једнокреветна соба' : language === 'el' ? 'μονό κρεβάτι' : language === 'ro' ? 'pat single' : language === 'mk' ? 'единечен кревет' : 'single bed'}</span>
+                  <span className="font-medium flex items-center gap-1">
+                    1
+                    <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="11" width="20" height="9" rx="1" />
+                      <path d="M2 11V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" />
+                      <line x1="12" y1="11" x2="12" y2="20" />
+                    </svg>
+                    + 1
+                    <svg className="w-6 h-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="9" rx="1" />
+                      <path d="M3 11V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2" />
+                    </svg>
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700">
                   <Bath className="text-gray-700" size={24} />

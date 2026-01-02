@@ -3,8 +3,8 @@
   command = "npm run build"
 
 [build.environment]
-  VITE_SUPABASE_URL = "https://dowxmbmttyhpsitwszuw.supabase.co"
-  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3htYm10dHlocHNpdHdzenV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMzExODMsImV4cCI6MjA3NzgwNzE4M30.gc3qNvK-2OdUggD_Vk7HdwZpTqf-boLoAqUMs7GV4pk"
+  VITE_SUPABASE_URL = "https://kqeyvhhtbcpjjyubtjef.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxZXl2aGh0YmNwamp5dWJ0amVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NTU1MDAsImV4cCI6MjA3NzMzMTUwMH0.gfeKBtQX8z0dryp7dV8JLJhNEekrjw6REIMtLPCGklM"
 
 [[redirects]]
   from = "/admin/*"

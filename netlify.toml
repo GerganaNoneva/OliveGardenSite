@@ -1,0 +1,30 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  VITE_SUPABASE_URL = "https://dowxmbmttyhpsitwszuw.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3htYm10dHlocHNpdHdzenV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMzExODMsImV4cCI6MjA3NzgwNzE4M30.gc3qNvK-2OdUggD_Vk7HdwZpTqf-boLoAqUMs7GV4pk"
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Force HTTPS redirect
+[[redirects]]
+  from = "http://olivegardenholiday.com/*"
+  to = "https://olivegardenholiday.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.olivegardenholiday.com/*"
+  to = "https://www.olivegardenholiday.com/:splat"
+  status = 301
+  force = true
